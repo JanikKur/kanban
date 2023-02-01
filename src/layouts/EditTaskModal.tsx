@@ -8,12 +8,14 @@ export default function EditTaskModal({
   show,
   taskData,
   statuses,
+  handleDelete,
   handleSubmit,
   handleClose,
 }: {
   show: boolean;
   taskData: TaskType | null;
   statuses: { title: string; color: string }[];
+  handleDelete: (title: string) => void;
   handleSubmit: (title: string, newData: any) => void;
   handleClose: () => void;
 }) {
@@ -113,6 +115,9 @@ export default function EditTaskModal({
         </div>
         <button type="submit" className="btn-primary">
           Update Task
+        </button>
+        <button className="btn-primary delete" onClick={e => {e.preventDefault(); handleDelete(taskData.title); handleClose();}}>
+          Delete Task
         </button>
       </form>
     </Modal>

@@ -42,7 +42,11 @@ export default function App() {
       setData({ boards: [] });
       return;
     }
-    setData(JSON.parse(savedDataString));
+    const data = JSON.parse(savedDataString);
+    if(data.boards?.length){
+      setCurrentBoard(data.boards[0].title);
+    }
+    setData(data);
   }, []);
 
   useEffect(() => {
@@ -201,6 +205,15 @@ export default function App() {
     });
   }
 
+  function deleteTask(taskTitle: string){
+    
+    setData(() => {
+      const boardIdx = data.boards.findIndex((board) => board.title === currentBoard);
+      data.boards[boardIdx].tasks = data.boards[boardIdx].tasks.filter(task => task.title !== taskTitle);
+      return { ...data };
+    });
+  }
+
   function updateTask(title: string, newData: any) {
     setData(() => {
       const boardIdx = data.boards.findIndex(
@@ -229,6 +242,7 @@ export default function App() {
           data.boards.find((board) => board.title === currentBoard)?.statuses ??
           []
         }
+        handleDelete={deleteTask}
         handleSubmit={updateTask}
         handleClose={() => {setCurrentTask(null); setShowEditTaskModal(false);}}
       />
