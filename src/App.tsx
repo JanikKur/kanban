@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddBoardModal from "./layouts/AddBoardModal";
 import AddStatusModal from "./layouts/AddStatusModal";
 import AddTaskModal from "./layouts/AddTaskModal";
@@ -32,9 +32,27 @@ export default function App() {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showEditStatusesModal, setShowEditStatusesModal] = useState(false);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
-  const [data, setData] = useState<DataType>(kanban);
+  const [data, setData] = useState<DataType>(null!);
   const [currentBoard, setCurrentBoard] = useState("");
   const [currentTask, setCurrentTask] = useState<TaskType | null>(null);
+
+  useEffect(() => {
+    const savedDataString = localStorage.getItem("data") ?? "";
+      
+    if(!savedDataString){
+      
+      setData({boards: []});
+      return;
+    }
+    setData(JSON.parse(savedDataString));
+  },[]);
+
+  useEffect(() => {
+    if(data){
+      localStorage.setItem("data", JSON.stringify(data));
+    }
+  },[{...data}]);
+
 
   function addBoard(title: string) {
     setData((prev) => {
@@ -94,6 +112,14 @@ export default function App() {
     subtask: { title: string; checked: boolean },
     value: boolean
   ) {
+    setCurrentTask(prev => {
+      if(prev){
+        const subIdx = prev.subtasks.findIndex(t => t.title === subtask.title);
+        prev.subtasks[subIdx].checked = value;
+        return {...prev};
+      }
+      return prev;
+    });
     setData(() => {
       const boardIdx = data.boards.findIndex(
         (board) => board.title === currentBoard
@@ -113,6 +139,13 @@ export default function App() {
   }
 
   function onStatusChange(taskTitle: string, status: string) {
+    setCurrentTask(prev => {
+      if(prev){
+        prev.status = status;
+        return {...prev};
+      }
+      return prev;
+    });
     setData(() => {
       const boardIdx = data.boards.findIndex(
         (board) => board.title === currentBoard
@@ -187,7 +220,7 @@ export default function App() {
       return { ...data };
     });
   }
-
+  if(!data) return null;
   return (
     <div className="App">
       <EditTaskModal

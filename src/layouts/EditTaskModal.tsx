@@ -14,18 +14,13 @@ export default function EditTaskModal({
   show: boolean;
   taskData: TaskType | null;
   statuses: { title: string; color: string }[];
-  handleSubmit: (
-    title: string,
-    newData: any
-  ) => void;
+  handleSubmit: (title: string, newData: any) => void;
   handleClose: () => void;
 }) {
   const [subTasks, setSubTasks] = useState<string[]>([]);
   const titleRef = useRef<HTMLInputElement>(null!);
   const descriptionRef = useRef<HTMLTextAreaElement>(null!);
   const statusRef = useRef<HTMLSelectElement>(null!);
-  console.log("TEST");
-  
 
   function updateSubTask(prevValue: string, newValue: string) {
     setSubTasks((prev) => [
@@ -36,7 +31,7 @@ export default function EditTaskModal({
 
   useEffect(() => {
     setSubTasks(taskData?.subtasks.map((task) => task.title) ?? []);
-  },[taskData])
+  }, [taskData]);
 
   if (!taskData) return null;
   return (
@@ -50,9 +45,17 @@ export default function EditTaskModal({
             title: titleRef.current.value,
             description: descriptionRef.current.value,
             status: statusRef.current.value,
-            subtasks: [...(subTasks.map(task => {return {title: task, checked: taskData.subtasks.find(t => t.title === task)?.checked || false}}))]
-          }
-          );
+            subtasks: [
+              ...subTasks.map((task) => {
+                return {
+                  title: task,
+                  checked:
+                    taskData.subtasks.find((t) => t.title === task)?.checked ||
+                    false,
+                };
+              }),
+            ],
+          });
           handleClose();
         }}
       >
