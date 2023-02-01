@@ -4,9 +4,11 @@ import "../styles/layouts/board.css";
 
 export default function Board({
   showAddNewStatusModal,
+  setCurrentTask,
   currentBoard,
 }: {
   showAddNewStatusModal: () => void;
+  setCurrentTask: React.Dispatch<React.SetStateAction<TaskType | null>>;
   currentBoard: BoardType | undefined;
 }) {
   function getTaskCountForStatus(status: string) {
@@ -36,7 +38,10 @@ export default function Board({
               .filter((task) => task.status === status.title)
               .map((task) => {
                 return (
-                  <button className="todo-btn">
+                  <button
+                    className="todo-btn"
+                    onClick={() => setCurrentTask(task)}
+                  >
                     <span className="title">{task.title}</span>
                     <span className="subtasks">
                       {getNumberOfCompletedSubTasks(task)} of{" "}

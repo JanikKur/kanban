@@ -1,0 +1,12 @@
+.task-modal .subtasks {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.task-modal .subtasks .subtask {
+  background-color: rgb(32, 33, 44);
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  border-radius: 5px;
+}

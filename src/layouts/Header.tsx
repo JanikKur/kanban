@@ -13,9 +13,13 @@ export default function Header({
     <header className="main-header">
       <h1>{currentBoard}</h1>
       <div className="user-interaction">
-        <button onClick={showAddNewTaskModal} className="add-task-btn">
-          + Add New Task
-        </button>
+        {currentBoard ? (
+          <button onClick={showAddNewTaskModal} className="add-task-btn">
+            + Add New Task
+          </button>
+        ) : (
+          ""
+        )}
         <button className="menu-btn">
           <AiOutlineMore />
         </button>

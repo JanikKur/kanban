@@ -6,6 +6,7 @@ import Board from "./layouts/Board";
 import Header from "./layouts/Header";
 import SideNavigation from "./layouts/SideNavigation";
 import kanban from "./data";
+import TaskModal from "./layouts/TaskModal";
 
 export type DataType = {
   boards: BoardType[];
@@ -28,6 +29,7 @@ export default function App() {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [data, setData] = useState<DataType>(kanban);
   const [currentBoard, setCurrentBoard] = useState("");
+  const [currentTask, setCurrentTask] = useState<TaskType | null>(null);
 
   function addBoard(title: string) {
     setData((prev) => {
@@ -92,6 +94,11 @@ export default function App() {
 
   return (
     <div className="App">
+      <TaskModal
+        show={currentTask ? true : false}
+        task={currentTask}
+        handleClose={() => setCurrentTask(null)}
+      />
       <AddBoardModal
         show={showAddBoardModal}
         handleSubmit={addBoard}
@@ -126,6 +133,7 @@ export default function App() {
           currentBoard={data.boards.find(
             (board) => board.title === currentBoard
           )}
+          setCurrentTask={setCurrentTask}
           showAddNewStatusModal={() => setShowAddStatusModal(true)}
         />
       </main>
