@@ -5,7 +5,8 @@ import {
   AiFillDelete,
   AiFillEdit,
   AiOutlineMenu,
-  AiOutlineDownload
+  AiOutlineDownload,
+  AiOutlineUpload,
 } from "react-icons/ai";
 
 export default function Header({
@@ -14,7 +15,8 @@ export default function Header({
   showEditStatusesModal,
   deleteBoard,
   showAddNewTaskModal,
-  saveBoard
+  saveBoard,
+  loadBoard,
 }: {
   currentBoard: string;
   showSideNav: () => void;
@@ -22,40 +24,56 @@ export default function Header({
   showEditStatusesModal: () => void;
   showAddNewTaskModal: () => void;
   saveBoard: () => void;
+  loadBoard: () => void;
 }) {
   const [showMenu, setShowMenu] = useState(false);
 
   function Menu() {
     return (
       <div className={`menu ${showMenu ? "show" : ""}`}>
+        {currentBoard ? (
+          <>
+            <button
+              className="menu-icon-btn"
+              onClick={() => {
+                setShowMenu(false);
+                if (confirm("Are you sure you want to delete the Board?")) {
+                  deleteBoard();
+                }
+              }}
+            >
+              <AiFillDelete /> <span>Delete Board</span>
+            </button>
+            <button
+              className="menu-icon-btn"
+              onClick={() => {
+                setShowMenu(false);
+                showEditStatusesModal();
+              }}
+            >
+              <AiFillEdit /> <span>Edit Columns</span>
+            </button>
+            <button
+              className="menu-icon-btn"
+              onClick={() => {
+                setShowMenu(false);
+                saveBoard();
+              }}
+            >
+              <AiOutlineUpload /> <span>Save Board</span>
+            </button>{" "}
+          </>
+        ) : (
+          ""
+        )}
         <button
           className="menu-icon-btn"
           onClick={() => {
             setShowMenu(false);
-            if (confirm("Are you sure you want to delete the Board?")) {
-              deleteBoard();
-            }
+            loadBoard();
           }}
         >
-          <AiFillDelete /> <span>Delete Board</span>
-        </button>
-        <button
-          className="menu-icon-btn"
-          onClick={() => {
-            setShowMenu(false);
-            showEditStatusesModal();
-          }}
-        >
-          <AiFillEdit /> <span>Edit Columns</span>
-        </button>
-        <button
-          className="menu-icon-btn"
-          onClick={() => {
-            setShowMenu(false);
-            saveBoard();
-          }}
-        >
-          <AiOutlineDownload /> <span>Save Board</span>
+          <AiOutlineDownload /> <span>Load Board</span>
         </button>
       </div>
     );
@@ -69,24 +87,24 @@ export default function Header({
         </button>
         <h1>{currentBoard}</h1>
       </div>
-      {currentBoard ? (
-        <>
-          <div className="user-interaction">
+      <>
+        <div className="user-interaction">
+          {currentBoard ? (
             <button onClick={showAddNewTaskModal} className="add-task-btn">
               + Add New Task
             </button>
-            <button
-              className="menu-btn"
-              onClick={() => setShowMenu((prev) => !prev)}
-            >
-              <AiOutlineMore />
-            </button>
-          </div>
-          <Menu />
-        </>
-      ) : (
-        ""
-      )}
+          ) : (
+            ""
+          )}
+          <button
+            className="menu-btn"
+            onClick={() => setShowMenu((prev) => !prev)}
+          >
+            <AiOutlineMore />
+          </button>
+        </div>
+        <Menu />
+      </>
     </header>
   );
 }

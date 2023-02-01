@@ -25,7 +25,6 @@ export type TaskType = {
 };
 
 export default function App() {
-
   const [showSideNav, setShowSideNav] = useState(false);
 
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);
@@ -38,8 +37,6 @@ export default function App() {
   const [currentBoard, setCurrentBoard] = useState("");
   const [currentTask, setCurrentTask] = useState<TaskType | null>(null);
 
-
-
   useEffect(() => {
     const savedDataString = localStorage.getItem("data") ?? "";
 
@@ -48,7 +45,7 @@ export default function App() {
       return;
     }
     const data = JSON.parse(savedDataString);
-    if(data.boards?.length){
+    if (data.boards?.length) {
       setCurrentBoard(data.boards[0].title);
     }
     setData(data);
@@ -210,11 +207,14 @@ export default function App() {
     });
   }
 
-  function deleteTask(taskTitle: string){
-    
+  function deleteTask(taskTitle: string) {
     setData(() => {
-      const boardIdx = data.boards.findIndex((board) => board.title === currentBoard);
-      data.boards[boardIdx].tasks = data.boards[boardIdx].tasks.filter(task => task.title !== taskTitle);
+      const boardIdx = data.boards.findIndex(
+        (board) => board.title === currentBoard
+      );
+      data.boards[boardIdx].tasks = data.boards[boardIdx].tasks.filter(
+        (task) => task.title !== taskTitle
+      );
       return { ...data };
     });
   }
@@ -238,14 +238,52 @@ export default function App() {
     });
   }
 
-  function saveBoard(){
-    const board = data.boards.find(board => board.title === currentBoard);
+  function saveBoard() {
+    const board = data.boards.find((board) => board.title === currentBoard);
     const link = document.createElement("a");
-    link.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: "application/json" }));
+    link.href = URL.createObjectURL(
+      new Blob([JSON.stringify(board)], { type: "application/json" })
+    );
     link.download = "board";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  function loadBoard() {
+    const fileUpload = document.createElement("input");
+    fileUpload.type = "file";
+    document.body.appendChild(fileUpload);
+    fileUpload.click();
+    fileUpload.addEventListener("change", (e: any) => {
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        const newBoard = JSON.parse(reader?.result as string);
+        if(data.boards.find(board => board.title === newBoard.title)){
+          alert("You already have a board with this title!");
+          document.body.removeChild(fileUpload);
+          return;
+        }
+        
+        if(!newBoard.title || !newBoard.statuses || !newBoard.tasks){
+          alert("The Document doesn't have the required specitication !");
+          document.body.removeChild(fileUpload);
+          return;
+        }
+        setData((prev) => {
+          prev.boards.push(newBoard);
+          return {
+            ...prev,
+          };
+        });
+      };
+      if (e?.target?.files?.length) {
+        reader.readAsText(e?.target?.files[0]);
+      }
+
+      document.body.removeChild(fileUpload);
+    });
   }
 
   if (!data) return null;
@@ -260,7 +298,10 @@ export default function App() {
         }
         handleDelete={deleteTask}
         handleSubmit={updateTask}
-        handleClose={() => {setCurrentTask(null); setShowEditTaskModal(false);}}
+        handleClose={() => {
+          setCurrentTask(null);
+          setShowEditTaskModal(false);
+        }}
       />
       <EditStatusesModal
         show={showEditStatusesModal}
@@ -312,11 +353,11 @@ export default function App() {
         showAddNewBoardModal={() => setShowAddBoardModal(true)}
       />
       <Header
-
         showSideNav={() => setShowSideNav(true)}
         currentBoard={currentBoard}
         deleteBoard={deleteBoard}
         saveBoard={saveBoard}
+        loadBoard={loadBoard}
         showEditStatusesModal={() => setShowEditStatusesModal(true)}
         showAddNewTaskModal={() => setShowAddTaskModal(true)}
       />
