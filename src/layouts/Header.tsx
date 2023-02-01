@@ -5,6 +5,7 @@ import {
   AiFillDelete,
   AiFillEdit,
   AiOutlineMenu,
+  AiOutlineDownload
 } from "react-icons/ai";
 
 export default function Header({
@@ -13,12 +14,14 @@ export default function Header({
   showEditStatusesModal,
   deleteBoard,
   showAddNewTaskModal,
+  saveBoard
 }: {
   currentBoard: string;
   showSideNav: () => void;
   deleteBoard: () => void;
   showEditStatusesModal: () => void;
   showAddNewTaskModal: () => void;
+  saveBoard: () => void;
 }) {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -44,6 +47,15 @@ export default function Header({
           }}
         >
           <AiFillEdit /> <span>Edit Columns</span>
+        </button>
+        <button
+          className="menu-icon-btn"
+          onClick={() => {
+            setShowMenu(false);
+            saveBoard();
+          }}
+        >
+          <AiOutlineDownload /> <span>Save Board</span>
         </button>
       </div>
     );

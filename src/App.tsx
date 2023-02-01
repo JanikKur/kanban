@@ -237,6 +237,17 @@ export default function App() {
       return { ...data };
     });
   }
+
+  function saveBoard(){
+    const board = data.boards.find(board => board.title === currentBoard);
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: "application/json" }));
+    link.download = "board";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   if (!data) return null;
   return (
     <div className="App">
@@ -305,6 +316,7 @@ export default function App() {
         showSideNav={() => setShowSideNav(true)}
         currentBoard={currentBoard}
         deleteBoard={deleteBoard}
+        saveBoard={saveBoard}
         showEditStatusesModal={() => setShowEditStatusesModal(true)}
         showAddNewTaskModal={() => setShowAddTaskModal(true)}
       />
