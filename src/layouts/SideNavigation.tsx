@@ -1,20 +1,32 @@
 import React from "react";
-import kanban from "../data";
 import "../styles/layouts/side_navigation.css";
 import { CiViewTable } from "react-icons/ci";
+import { DataType } from "../App";
 
 export default function SideNavigation({
+  data,
   showAddNewBoardModal,
+  currentBoard,
+  onSelect,
 }: {
+  data: DataType;
   showAddNewBoardModal: () => void;
+  currentBoard: string;
+  onSelect: (title: string) => void;
 }) {
   function BoardSelection() {
     return (
       <div className="boards">
-        <label>All Boards ({kanban.boards.length})</label>
-        {kanban.boards.map(({ title }) => {
+        <label>All Boards ({data.boards.length})</label>
+        {data.boards.map(({ title }, idx) => {
           return (
-            <button className="board-selection-btn">
+            <button
+              onClick={() => onSelect(title)}
+              key={idx}
+              className={`board-selection-btn ${
+                currentBoard === title ? "selected" : ""
+              }`}
+            >
               <CiViewTable /> <span>{title}</span>
             </button>
           );

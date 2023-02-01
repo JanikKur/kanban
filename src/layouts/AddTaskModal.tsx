@@ -9,10 +9,18 @@ export default function AddTaskModal({
   handleClose,
 }: {
   show: boolean;
-  handleSubmit: (title: string) => void;
+  handleSubmit: (
+    title: string,
+    description: string,
+    status: string,
+    subTasks: string[]
+  ) => void;
   handleClose: () => void;
 }) {
   const [subTasks, setSubTasks] = useState<string[]>([""]);
+  const titleRef = useRef<HTMLInputElement>(null!);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null!);
+  const statusRef = useRef<HTMLSelectElement>(null!);
 
   function updateSubTask(prevValue: string, newValue: string) {
     setSubTasks((prev) => [
@@ -24,19 +32,39 @@ export default function AddTaskModal({
   return (
     <Modal show={show} handleClose={handleClose} className="add-modal">
       <h2>Add New Task</h2>
-      <form onSubmit={() => handleSubmit("")}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(
+            titleRef.current.value,
+            descriptionRef.current.value,
+            statusRef.current.value,
+            subTasks
+          );
+          handleClose();
+        }}
+      >
         <div className="form-group">
           <label>Title</label>
-          <input type="text" placeholder="e.g. Take coffee break" />
+          <input
+            type="text"
+            ref={titleRef}
+            placeholder="e.g. Take coffee break"
+            required
+          />
         </div>
         <div className="form-group">
           <label>Description</label>
-          <textarea placeholder="e.g. It's always good to take a break. This 15 minute break will reacharge the batteries a little." />
+          <textarea
+            ref={descriptionRef}
+            placeholder="e.g. It's always good to take a break. This 15 minute break will reacharge the batteries a little."
+          />
         </div>
         <div className="form-group subtasks">
           <label>Subtasks</label>
-          {subTasks.map((subTask) => (
+          {subTasks.map((subTask, idx) => (
             <SubtaskInput
+              key={idx}
               value={subTask}
               onChange={(newText: string) => updateSubTask(subTask, newText)}
               onDelete={(text) =>
@@ -58,7 +86,7 @@ export default function AddTaskModal({
         </div>
         <div className="form-group">
           <label>Status</label>
-          <select>
+          <select ref={statusRef}>
             <option>Todo</option>
           </select>
         </div>

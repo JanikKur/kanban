@@ -1,4 +1,4 @@
-export {} 
+export {};
 const kanban = {
   boards: [
     {
@@ -6,7 +6,7 @@ const kanban = {
       statuses: [{ title: "todo", color: "#ffff" }],
       tasks: [
         {
-          title: "",
+          title: "Build UI for onboarding flow",
           description: "",
           subtasks: [
             { title: "Make Coffe", checked: false },

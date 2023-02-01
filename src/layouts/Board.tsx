@@ -1,85 +1,57 @@
 import React from "react";
+import { BoardType, TaskType } from "../App";
 import "../styles/layouts/board.css";
 
-export default function Board() {
+export default function Board({
+  showAddNewStatusModal,
+  currentBoard,
+}: {
+  showAddNewStatusModal: () => void;
+  currentBoard: BoardType | undefined;
+}) {
+  function getTaskCountForStatus(status: string) {
+    return (
+      currentBoard?.tasks.filter((task) => task.status === status).length ?? 0
+    );
+  }
+
+  function getNumberOfCompletedSubTasks(task: TaskType) {
+    return task.subtasks.filter((subtask) => subtask.checked).length;
+  }
+
+  if (!currentBoard) return <h2>No Board Selected</h2>;
   return (
     <section className="board">
-      <div className="col">
-        <label className="col-title">
-          <div className="color"></div>TODO (4)
-        </label>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-      </div>
-      <div className="col">
-        <label className="col-title">
-          <div className="color"></div> DOING (10)
-        </label>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">
-            Build UI for onboarding flow bacause live is garbage and im gonna
-            take it out on you
-          </span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-      </div>
-      <div className="col">
-        <label className="col-title">
-          <div className="color"></div> DONE (7)
-        </label>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-      </div>
-      <div className="col">
-        <label className="col-title">
-          <div className="color"></div> DONE (7)
-        </label>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-        <button className="todo-btn">
-          <span className="title">Build UI for onboarding flow</span>
-          <span className="subtasks">0 of 3 subtasks</span>
-        </button>
-      </div>
-      <button className="col add-bol-btn">+ New Column</button>
+      {currentBoard.statuses.map((status) => {
+        return (
+          <div className="col">
+            <label className="col-title">
+              <div
+                className="color"
+                style={{ backgroundColor: status.color }}
+              ></div>
+              {status.title} ({getTaskCountForStatus(status.title)})
+            </label>
+            {currentBoard.tasks
+              .filter((task) => task.status === status.title)
+              .map((task) => {
+                return (
+                  <button className="todo-btn">
+                    <span className="title">{task.title}</span>
+                    <span className="subtasks">
+                      {getNumberOfCompletedSubTasks(task)} of{" "}
+                      {task.subtasks.length} subtasks
+                    </span>
+                  </button>
+                );
+              })}
+          </div>
+        );
+      })}
+
+      <button onClick={showAddNewStatusModal} className="col add-bol-btn">
+        + New Column
+      </button>
     </section>
   );
 }
