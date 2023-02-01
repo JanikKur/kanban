@@ -5,10 +5,12 @@ import { AiOutlineClose, AiOutlineDelete } from "react-icons/ai";
 
 export default function AddTaskModal({
   show,
+  statuses,
   handleSubmit,
   handleClose,
 }: {
   show: boolean;
+  statuses: { title: string; color: string }[];
   handleSubmit: (
     title: string,
     description: string,
@@ -87,7 +89,11 @@ export default function AddTaskModal({
         <div className="form-group">
           <label>Status</label>
           <select ref={statusRef}>
-            <option>Todo</option>
+            {statuses.map((status, idx) => (
+              <option key={idx} value={status.title}>
+                {status.title}
+              </option>
+            ))}
           </select>
         </div>
         <button type="submit" className="btn-primary">

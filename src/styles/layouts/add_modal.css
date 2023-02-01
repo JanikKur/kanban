@@ -37,6 +37,11 @@
   background-color: transparent;
   border: 1px solid rgba(55, 56, 66);
 }
+.add-modal form select option {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
 .add-subclass-btn {
   background-color: white;
   border: none;

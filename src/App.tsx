@@ -104,6 +104,10 @@ export default function App() {
       />
       <AddTaskModal
         show={showAddTaskModal}
+        statuses={
+          data.boards.find((board) => board.title === currentBoard)?.statuses ??
+          []
+        }
         handleSubmit={addTask}
         handleClose={() => setShowAddTaskModal(false)}
       />
