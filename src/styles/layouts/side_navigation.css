@@ -1,0 +1,48 @@
+.side-nav {
+  float: left;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  height: 100vh;
+  width: 300px;
+  background-color: rgba(43, 44, 55);
+  border-right: 1px solid rgba(55, 56, 66);
+}
+
+.logo {
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.boards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.board-selection-btn {
+  height: 50px;
+  margin-left: -1rem;
+  display: flex;
+  align-items: center;
+  font-size: 100%;
+  padding-left: 1rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.board-selection-btn.selected,
+.board-selection-btn:hover {
+  background-color: rgb(92, 99, 191);
+  border-radius: 0px 50px 50px 0px;
+}
+
+.board-selection-btn.add-btn {
+  color: rgb(102, 107, 186);
+}
+.board-selection-btn.add-btn:hover {
+  background-color: transparent;
+  color: rgb(110, 118, 224);
+}

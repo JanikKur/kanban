@@ -1,3 +1,4 @@
+import Board from "./layouts/Board";
 import Header from "./layouts/Header";
 import SideNavigation from "./layouts/SideNavigation";
 
@@ -6,7 +7,9 @@ export default function App() {
     <div className="App">
       <SideNavigation />
       <Header />
-      <main></main>
+      <main>
+        <Board />
+      </main>
     </div>
   );
 }

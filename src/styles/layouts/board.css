@@ -1,0 +1,75 @@
+.board {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: fit-content;
+  min-height: 100%;
+  position: relative;
+  padding-right: calc(300px + 1.5rem);
+}
+
+.col {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.col-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+.col .color {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.todo-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem 0.75rem;
+  border: none;
+  background-color: rgb(43, 44, 55);
+  border-radius: 10px;
+  width: 100%;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.todo-btn:hover {
+  background-color: rgb(57, 58, 73);
+}
+
+.todo-btn .title {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.todo-btn .subtasks {
+  color: rgb(189, 189, 194);
+}
+
+.add-bol-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: rgb(39, 40, 52);
+  cursor: pointer;
+  font-size: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.add-bol-btn:hover {
+  background-color: rgb(61, 63, 81);
+}
