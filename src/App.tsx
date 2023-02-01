@@ -38,6 +38,8 @@ export default function App() {
   const [currentBoard, setCurrentBoard] = useState("");
   const [currentTask, setCurrentTask] = useState<TaskType | null>(null);
 
+
+
   useEffect(() => {
     const savedDataString = localStorage.getItem("data") ?? "";
 

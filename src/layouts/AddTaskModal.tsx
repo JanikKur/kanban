@@ -32,6 +32,8 @@ export default function AddTaskModal({
   }
 
   return (
+    <>
+    {show ? 
     <Modal show={show} handleClose={handleClose} className="add-modal">
       <h2>Add New Task</h2>
       <form
@@ -43,6 +45,7 @@ export default function AddTaskModal({
             statusRef.current.value,
             subTasks
           );
+          setSubTasks([]);
           handleClose();
         }}
       >
@@ -52,6 +55,7 @@ export default function AddTaskModal({
             type="text"
             ref={titleRef}
             placeholder="e.g. Take coffee break"
+            autoFocus
             required
           />
         </div>
@@ -101,7 +105,8 @@ export default function AddTaskModal({
           Create Task
         </button>
       </form>
-    </Modal>
+    </Modal> : ""}
+    </>
   );
 }
 

@@ -16,23 +16,31 @@ export default function EditStatusesModal({
   handleDelete: (statusTitle: string) => void;
   handleClose: () => void;
 }) {
-
   return (
-    <Modal show={show} handleClose={handleClose} className="add-modal edit-statuses">
-      <h2>Edit Columns</h2>
-      <div className="form-group subtasks">
-
-        {!statuses.length ? <p>No Columns Created Yet</p> : ""}
-        {statuses.map((status, idx) => (
-          <StatusInput
-            key={idx}
-            value={status.title}
-            onChange={handleChange}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
-    </Modal>
+    <>
+      {show ? (
+        <Modal
+          show={show}
+          handleClose={handleClose}
+          className="add-modal edit-statuses"
+        >
+          <h2>Edit Columns</h2>
+          <div className="form-group subtasks">
+            {!statuses.length ? <p>No Columns Created Yet</p> : ""}
+            {statuses.map((status, idx) => (
+              <StatusInput
+                key={idx}
+                value={status.title}
+                onChange={handleChange}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        </Modal>
+      ) : (
+        ""
+      )}
+    </>
   );
 }
 function StatusInput({

@@ -37,90 +37,106 @@ export default function EditTaskModal({
 
   if (!taskData) return null;
   return (
-    <Modal show={show} handleClose={handleClose} className="add-modal">
-      <h2>Edit Task</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          handleSubmit(taskData.title, {
-            title: titleRef.current.value,
-            description: descriptionRef.current.value,
-            status: statusRef.current.value,
-            subtasks: [
-              ...subTasks.map((task) => {
-                return {
-                  title: task,
-                  checked:
-                    taskData.subtasks.find((t) => t.title === task)?.checked ||
-                    false,
-                };
-              }),
-            ],
-          });
-          handleClose();
-        }}
-      >
-        <div className="form-group">
-          <label>Title</label>
-          <input
-            type="text"
-            defaultValue={taskData.title}
-            ref={titleRef}
-            placeholder="e.g. Take coffee break"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Description</label>
-          <textarea
-            ref={descriptionRef}
-            defaultValue={taskData.description}
-            placeholder="e.g. It's always good to take a break. This 15 minute break will reacharge the batteries a little."
-          />
-        </div>
-        <div className="form-group subtasks">
-          <label>Subtasks</label>
-          {subTasks.sort().map((subTask, idx) => (
-            <SubtaskInput
-              key={idx}
-              value={subTask}
-              onChange={(newText: string) => updateSubTask(subTask, newText)}
-              onDelete={(text) =>
-                setSubTasks((prev: string[]) => [
-                  ...prev.filter((task: string) => task !== text),
-                ])
-              }
-            />
-          ))}
-          <button
-            className="add-subclass-btn"
-            onClick={(e) => {
+    <>
+      {show ? (
+        <Modal show={show} handleClose={handleClose} className="add-modal">
+          <h2>Edit Task</h2>
+          <form
+            onSubmit={(e) => {
               e.preventDefault();
-              setSubTasks((prev) => [...prev, ""]);
+
+              handleSubmit(taskData.title, {
+                title: titleRef.current.value,
+                description: descriptionRef.current.value,
+                status: statusRef.current.value,
+                subtasks: [
+                  ...subTasks.map((task) => {
+                    return {
+                      title: task,
+                      checked:
+                        taskData.subtasks.find((t) => t.title === task)
+                          ?.checked || false,
+                    };
+                  }),
+                ],
+              });
+              handleClose();
             }}
           >
-            + Add New Subtask
-          </button>
-        </div>
-        <div className="form-group">
-          <label>Status</label>
-          <select defaultValue={taskData.status} ref={statusRef}>
-            {statuses.map((status, idx) => (
-              <option key={idx} value={status.title}>
-                {status.title}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button type="submit" className="btn-primary">
-          Update Task
-        </button>
-        <button className="btn-primary delete" onClick={e => {e.preventDefault(); handleDelete(taskData.title); handleClose();}}>
-          Delete Task
-        </button>
-      </form>
-    </Modal>
+            <div className="form-group">
+              <label>Title</label>
+              <input
+                autoFocus
+                type="text"
+                defaultValue={taskData.title}
+                ref={titleRef}
+                placeholder="e.g. Take coffee break"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                ref={descriptionRef}
+                defaultValue={taskData.description}
+                placeholder="e.g. It's always good to take a break. This 15 minute break will reacharge the batteries a little."
+              />
+            </div>
+            <div className="form-group subtasks">
+              <label>Subtasks</label>
+              {subTasks.sort().map((subTask, idx) => (
+                <SubtaskInput
+                  key={idx}
+                  value={subTask}
+                  onChange={(newText: string) =>
+                    updateSubTask(subTask, newText)
+                  }
+                  onDelete={(text) =>
+                    setSubTasks((prev: string[]) => [
+                      ...prev.filter((task: string) => task !== text),
+                    ])
+                  }
+                />
+              ))}
+              <button
+                className="add-subclass-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSubTasks((prev) => [...prev, ""]);
+                }}
+              >
+                + Add New Subtask
+              </button>
+            </div>
+            <div className="form-group">
+              <label>Status</label>
+              <select defaultValue={taskData.status} ref={statusRef}>
+                {statuses.map((status, idx) => (
+                  <option key={idx} value={status.title}>
+                    {status.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type="submit" className="btn-primary">
+              Update Task
+            </button>
+            <button
+              className="btn-primary delete"
+              onClick={(e) => {
+                e.preventDefault();
+                handleDelete(taskData.title);
+                handleClose();
+              }}
+            >
+              Delete Task
+            </button>
+          </form>
+        </Modal>
+      ) : (
+        ""
+      )}
+    </>
   );
 }
 
