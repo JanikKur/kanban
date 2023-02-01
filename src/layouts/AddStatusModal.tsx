@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Modal from "../components/Modal";
+import { SketchPicker, TwitterPicker } from 'react-color';
 import "../styles/layouts/add_modal.css";
 
 export default function AddStatusModal({
@@ -12,7 +13,7 @@ export default function AddStatusModal({
   handleClose: () => void;
 }) {
   const titleRef = useRef<HTMLInputElement>(null!);
-  const colorRef = useRef<HTMLInputElement>(null!);
+  const [color, setColor] = useState("");
 
   return (
     <Modal show={show} handleClose={handleClose} className="add-modal">
@@ -20,7 +21,8 @@ export default function AddStatusModal({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit(titleRef.current.value, colorRef.current.value);
+          
+          handleSubmit(titleRef.current.value, color);
           titleRef.current.value = "";
           handleClose();
         }}
@@ -31,7 +33,7 @@ export default function AddStatusModal({
         </div>
         <div className="form-group">
           <label>Color</label>
-          <input type="color" ref={colorRef} placeholder="e.g. Important" />
+          <TwitterPicker color={color} className="test" onChange={e => setColor(e.hex)} styles={{}} />
         </div>
         <button type="submit" className="btn-primary">
           Add Column

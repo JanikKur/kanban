@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import "../styles/layouts/header.css";
-import { AiOutlineMore, AiFillDelete, AiFillEdit, AiOutlineMenu } from "react-icons/ai";
+import {
+  AiOutlineMore,
+  AiFillDelete,
+  AiFillEdit,
+  AiOutlineMenu,
+} from "react-icons/ai";
 
 export default function Header({
   currentBoard,
@@ -17,12 +22,13 @@ export default function Header({
 }) {
   const [showMenu, setShowMenu] = useState(false);
 
-  function Menu({ show }: { show: boolean }) {
+  function Menu() {
     return (
-      <div className={`menu ${show ? "show" : ""}`}>
+      <div className={`menu ${showMenu ? "show" : ""}`}>
         <button
           className="menu-icon-btn"
           onClick={() => {
+            setShowMenu(false);
             if (confirm("Are you sure you want to delete the Board?")) {
               deleteBoard();
             }
@@ -30,7 +36,13 @@ export default function Header({
         >
           <AiFillDelete /> <span>Delete Board</span>
         </button>
-        <button className="menu-icon-btn" onClick={showEditStatusesModal}>
+        <button
+          className="menu-icon-btn"
+          onClick={() => {
+            setShowMenu(false);
+            showEditStatusesModal();
+          }}
+        >
           <AiFillEdit /> <span>Edit Columns</span>
         </button>
       </div>
@@ -39,7 +51,12 @@ export default function Header({
 
   return (
     <header className="main-header">
-      <div className="user-interaction"><button onClick={showSideNav} className="menu-btn mobile"><AiOutlineMenu/></button><h1>{currentBoard}</h1></div>
+      <div className="user-interaction">
+        <button onClick={showSideNav} className="menu-btn mobile">
+          <AiOutlineMenu />
+        </button>
+        <h1>{currentBoard}</h1>
+      </div>
       {currentBoard ? (
         <>
           <div className="user-interaction">
@@ -53,7 +70,7 @@ export default function Header({
               <AiOutlineMore />
             </button>
           </div>
-          <Menu show={showMenu} />
+          <Menu />
         </>
       ) : (
         ""

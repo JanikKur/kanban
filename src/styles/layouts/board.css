@@ -20,6 +20,7 @@
   font-weight: 100;
   color: rgba(128, 128, 128, 0.449);
   font-size: small;
+  user-select: none;
 }
 .col-title {
   cursor: pointer;
@@ -80,5 +81,4 @@
 }
 .add-bol-btn:hover {
   background-color: rgb(61, 63, 81);
-  user-select: none;
 }
