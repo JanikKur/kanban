@@ -7,6 +7,8 @@ import Header from "./layouts/Header";
 import SideNavigation from "./layouts/SideNavigation";
 import kanban from "./data";
 import TaskModal from "./layouts/TaskModal";
+import EditStatusesModal from "./layouts/EditStatusesModal";
+import EditTaskModal from "./layouts/EditTaskModal";
 
 export type DataType = {
   boards: BoardType[];
@@ -26,7 +28,10 @@ export type TaskType = {
 export default function App() {
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);
   const [showAddStatusModal, setShowAddStatusModal] = useState(false);
+  const [showTaskModal, setShowTaskModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [showEditStatusesModal, setShowEditStatusesModal] = useState(false);
+  const [showEditTaskModal, setShowEditTaskModal] = useState(false);
   const [data, setData] = useState<DataType>(kanban);
   const [currentBoard, setCurrentBoard] = useState("");
   const [currentTask, setCurrentTask] = useState<TaskType | null>(null);
@@ -123,18 +128,80 @@ export default function App() {
     });
   }
 
+  function deleteStatus(statusTitle: string) {
+    setData(() => {
+      const boardIdx = data.boards.findIndex(
+        (board) => board.title === currentBoard
+      );
+
+      data.boards[boardIdx].statuses = data.boards[boardIdx].statuses.filter(
+        (status) => status.title !== statusTitle
+      );
+
+      return { ...data };
+    });
+  }
+
+  function updateStatus(statusTitle: string, newData: any) {
+    setData(() => {
+      const boardIdx = data.boards.findIndex(
+        (board) => board.title === currentBoard
+      );
+
+      const statusIdx = data.boards[boardIdx].statuses.findIndex(
+        (status) => status.title === statusTitle
+      );
+
+      data.boards[boardIdx].statuses[statusIdx] = {
+        ...data.boards[boardIdx].statuses[statusIdx],
+        ...newData,
+      };
+
+      return { ...data };
+    });
+  }
+
+  function deleteBoard() {
+    setData(() => {
+      data.boards = data.boards.filter((board) => board.title !== currentBoard);
+      setCurrentBoard("");
+      return { ...data };
+    });
+  }
+
   return (
     <div className="App">
+      <EditTaskModal
+        taskData={currentTask}
+        show={showEditTaskModal}
+        statuses={
+          data.boards.find((board) => board.title === currentBoard)?.statuses ??
+          []
+        }
+        handleSubmit={addTask}
+        handleClose={() => setShowEditTaskModal(false)}
+      />
+      <EditStatusesModal
+        show={showEditStatusesModal}
+        statuses={
+          data.boards.find((board) => board.title === currentBoard)?.statuses ??
+          []
+        }
+        handleChange={updateStatus}
+        handleDelete={deleteStatus}
+        handleClose={() => setShowEditStatusesModal(false)}
+      />
       <TaskModal
-        show={currentTask ? true : false}
+        show={showTaskModal}
         task={currentTask}
         statuses={
           data.boards.find((board) => board.title === currentBoard)?.statuses ??
           []
         }
         onStatusChange={onStatusChange}
+        showEditTaskModal={() => setShowEditTaskModal(true)}
         toggleChecked={toggleChecked}
-        handleClose={() => setCurrentTask(null)}
+        handleClose={() => setShowTaskModal(false)}
       />
       <AddBoardModal
         show={showAddBoardModal}
@@ -163,6 +230,8 @@ export default function App() {
       />
       <Header
         currentBoard={currentBoard}
+        deleteBoard={deleteBoard}
+        showEditStatusesModal={() => setShowEditStatusesModal(true)}
         showAddNewTaskModal={() => setShowAddTaskModal(true)}
       />
       <main>
@@ -171,6 +240,7 @@ export default function App() {
             (board) => board.title === currentBoard
           )}
           setCurrentTask={setCurrentTask}
+          showTaskModal={() => setShowTaskModal(true)}
           showAddNewStatusModal={() => setShowAddStatusModal(true)}
         />
       </main>

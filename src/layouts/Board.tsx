@@ -4,10 +4,12 @@ import "../styles/layouts/board.css";
 
 export default function Board({
   showAddNewStatusModal,
+  showTaskModal,
   setCurrentTask,
   currentBoard,
 }: {
   showAddNewStatusModal: () => void;
+  showTaskModal: () => void;
   setCurrentTask: React.Dispatch<React.SetStateAction<TaskType | null>>;
   currentBoard: BoardType | undefined;
 }) {
@@ -41,7 +43,10 @@ export default function Board({
                   <button
                     key={idx}
                     className="todo-btn"
-                    onClick={() => setCurrentTask(task)}
+                    onClick={() => {
+                      setCurrentTask(task);
+                      showTaskModal();
+                    }}
                   >
                     <span className="title">{task.title}</span>
                     <span className="subtasks">

@@ -1,3 +1,15 @@
+.task-modal {
+  max-width: 500px;
+}
+.task-modal .modal-title {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.task-modal p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 100;
+}
 .task-modal .form-group {
   display: flex;
   flex-direction: column;

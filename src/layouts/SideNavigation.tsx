@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/layouts/side_navigation.css";
-import { CiViewTable } from "react-icons/ci";
+import { BsGrid1X2 } from "react-icons/bs";
 import { DataType } from "../App";
 
 export default function SideNavigation({
@@ -27,7 +27,7 @@ export default function SideNavigation({
                 currentBoard === title ? "selected" : ""
               }`}
             >
-              <CiViewTable /> <span>{title}</span>
+              <BsGrid1X2 /> <span>{title}</span>
             </button>
           );
         })}
@@ -35,7 +35,7 @@ export default function SideNavigation({
           onClick={() => showAddNewBoardModal()}
           className="board-selection-btn add-btn"
         >
-          <CiViewTable /> + <span>Create New Board</span>
+          <BsGrid1X2 /> + <span>Create New Board</span>
         </button>
       </div>
     );

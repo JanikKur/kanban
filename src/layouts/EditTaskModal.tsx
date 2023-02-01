@@ -2,14 +2,17 @@ import React, { useRef, useState } from "react";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import { AiOutlineClose } from "react-icons/ai";
+import { TaskType } from "../App";
 
-export default function AddTaskModal({
+export default function EditTaskModal({
   show,
+  taskData,
   statuses,
   handleSubmit,
   handleClose,
 }: {
   show: boolean;
+  taskData: TaskType | null;
   statuses: { title: string; color: string }[];
   handleSubmit: (
     title: string,
@@ -19,7 +22,10 @@ export default function AddTaskModal({
   ) => void;
   handleClose: () => void;
 }) {
-  const [subTasks, setSubTasks] = useState<string[]>([""]);
+  const [subTasks, setSubTasks] = useState<string[]>(
+    taskData?.subtasks.map((task) => task.title) ?? [""]
+  ); //TODO
+  dwa;
   const titleRef = useRef<HTMLInputElement>(null!);
   const descriptionRef = useRef<HTMLTextAreaElement>(null!);
   const statusRef = useRef<HTMLSelectElement>(null!);
@@ -31,9 +37,10 @@ export default function AddTaskModal({
     ]);
   }
 
+  if (!taskData) return null;
   return (
     <Modal show={show} handleClose={handleClose} className="add-modal">
-      <h2>Add New Task</h2>
+      <h2>Edit Task</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -50,6 +57,7 @@ export default function AddTaskModal({
           <label>Title</label>
           <input
             type="text"
+            defaultValue={taskData.title}
             ref={titleRef}
             placeholder="e.g. Take coffee break"
             required
@@ -59,6 +67,7 @@ export default function AddTaskModal({
           <label>Description</label>
           <textarea
             ref={descriptionRef}
+            defaultValue={taskData.description}
             placeholder="e.g. It's always good to take a break. This 15 minute break will reacharge the batteries a little."
           />
         </div>
@@ -88,7 +97,7 @@ export default function AddTaskModal({
         </div>
         <div className="form-group">
           <label>Status</label>
-          <select ref={statusRef}>
+          <select defaultValue={taskData.status} ref={statusRef}>
             {statuses.map((status, idx) => (
               <option key={idx} value={status.title}>
                 {status.title}
@@ -97,7 +106,7 @@ export default function AddTaskModal({
           </select>
         </div>
         <button type="submit" className="btn-primary">
-          Create Task
+          Update Task
         </button>
       </form>
     </Modal>

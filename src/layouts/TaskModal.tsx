@@ -3,11 +3,13 @@ import { TaskType } from "../App";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import "../styles/layouts/task_modal.css";
+import { AiOutlineMore } from "react-icons/ai";
 
 export default function TaskModal({
   show,
   task,
   statuses,
+  showEditTaskModal,
   toggleChecked,
   onStatusChange,
   handleClose,
@@ -15,6 +17,7 @@ export default function TaskModal({
   show: boolean;
   task: TaskType | null;
   statuses: { title: string; color: string }[];
+  showEditTaskModal: () => void;
   toggleChecked: (
     taskTitle: string,
     subtask: { title: string; checked: boolean },
@@ -36,6 +39,15 @@ export default function TaskModal({
     >
       <div className="modal-title">
         <h2>{task.title}</h2>
+        <button
+          className="menu-btn"
+          onClick={() => {
+            showEditTaskModal();
+            handleClose();
+          }}
+        >
+          <AiOutlineMore />
+        </button>
       </div>
       <p>{task.description}</p>
       <div className="form-group">
@@ -65,7 +77,10 @@ export default function TaskModal({
       </div>
       <div className="form-group">
         <label>Status</label>
-        <select onChange={(e) => onStatusChange(task.title, e.target.value)}>
+        <select
+          value={task.status}
+          onChange={(e) => onStatusChange(task.title, e.target.value)}
+        >
           {statuses.map((status, idx) => (
             <option key={idx} value={status.title}>
               {status.title}
