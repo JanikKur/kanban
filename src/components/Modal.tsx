@@ -9,15 +9,20 @@ export default function Modal({
 }: {
   show: boolean;
   handleClose: () => void;
-  className: string;
-  children: React.ReactNode;
+  className?: string;
+  children?: React.ReactNode;
 }) {
   return (
     <div
       onClick={() => handleClose()}
       className={`modal-wrapper ${show ? "show" : ""}`}
     >
-      <aside className={`modal ${className}`}>{children}</aside>
+      <aside
+        className={`modal ${className}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </aside>
     </div>
   );
 }

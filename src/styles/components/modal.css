@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  z-index: 1000;
 }
 
 .modal-wrapper.show {
@@ -17,4 +18,7 @@
 
 .modal {
   display: flex;
+  flex-direction: column;
+  background-color: rgb(43, 44, 55);
+  max-width: 100%;
 }
