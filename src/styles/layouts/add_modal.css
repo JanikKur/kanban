@@ -69,3 +69,13 @@
   font-size: 1.25rem;
   cursor: pointer;
 }
+
+.edit-statuses input {
+  height: 30px;
+  width: 400px;
+  max-width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-left: 0.5rem;
+  background-color: transparent;
+  border: 1px solid rgba(55, 56, 66);
+}

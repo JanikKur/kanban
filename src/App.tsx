@@ -5,7 +5,6 @@ import AddTaskModal from "./layouts/AddTaskModal";
 import Board from "./layouts/Board";
 import Header from "./layouts/Header";
 import SideNavigation from "./layouts/SideNavigation";
-import kanban from "./data";
 import TaskModal from "./layouts/TaskModal";
 import EditStatusesModal from "./layouts/EditStatusesModal";
 import EditTaskModal from "./layouts/EditTaskModal";
@@ -38,21 +37,19 @@ export default function App() {
 
   useEffect(() => {
     const savedDataString = localStorage.getItem("data") ?? "";
-      
-    if(!savedDataString){
-      
-      setData({boards: []});
+
+    if (!savedDataString) {
+      setData({ boards: [] });
       return;
     }
     setData(JSON.parse(savedDataString));
-  },[]);
+  }, []);
 
   useEffect(() => {
-    if(data){
+    if (data) {
       localStorage.setItem("data", JSON.stringify(data));
     }
-  },[{...data}]);
-
+  }, [{ ...data }]);
 
   function addBoard(title: string) {
     setData((prev) => {
@@ -112,11 +109,13 @@ export default function App() {
     subtask: { title: string; checked: boolean },
     value: boolean
   ) {
-    setCurrentTask(prev => {
-      if(prev){
-        const subIdx = prev.subtasks.findIndex(t => t.title === subtask.title);
+    setCurrentTask((prev) => {
+      if (prev) {
+        const subIdx = prev.subtasks.findIndex(
+          (t) => t.title === subtask.title
+        );
         prev.subtasks[subIdx].checked = value;
-        return {...prev};
+        return { ...prev };
       }
       return prev;
     });
@@ -139,10 +138,10 @@ export default function App() {
   }
 
   function onStatusChange(taskTitle: string, status: string) {
-    setCurrentTask(prev => {
-      if(prev){
+    setCurrentTask((prev) => {
+      if (prev) {
         prev.status = status;
-        return {...prev};
+        return { ...prev };
       }
       return prev;
     });
@@ -202,7 +201,7 @@ export default function App() {
     });
   }
 
-  function updateTask(title: string, newData: any){
+  function updateTask(title: string, newData: any) {
     setData(() => {
       const boardIdx = data.boards.findIndex(
         (board) => board.title === currentBoard
@@ -220,7 +219,7 @@ export default function App() {
       return { ...data };
     });
   }
-  if(!data) return null;
+  if (!data) return null;
   return (
     <div className="App">
       <EditTaskModal
@@ -231,7 +230,7 @@ export default function App() {
           []
         }
         handleSubmit={updateTask}
-        handleClose={() => setShowEditTaskModal(false)}
+        handleClose={() => {setCurrentTask(null); setShowEditTaskModal(false);}}
       />
       <EditStatusesModal
         show={showEditStatusesModal}

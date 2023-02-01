@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import { AiOutlineClose } from "react-icons/ai";
@@ -16,13 +16,11 @@ export default function EditStatusesModal({
   handleDelete: (statusTitle: string) => void;
   handleClose: () => void;
 }) {
-  const titleRef = useRef<HTMLInputElement>(null!);
-  const colorRef = useRef<HTMLInputElement>(null!);
 
   return (
-    <Modal show={show} handleClose={handleClose} className="add-modal">
+    <Modal show={show} handleClose={handleClose} className="add-modal edit-statuses">
       <h2>Edit Columns</h2>
-      <div className="">
+      <div className="form-group subtasks">
         {statuses.map((status, idx) => (
           <StatusInput
             key={idx}
