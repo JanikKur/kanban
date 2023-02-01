@@ -92,11 +92,56 @@ export default function App() {
     });
   }
 
+  function toggleChecked(
+    taskTitle: string,
+    subtask: { title: string; checked: boolean },
+    value: boolean
+  ) {
+    setData(() => {
+      const boardIdx = data.boards.findIndex(
+        (board) => board.title === currentBoard
+      );
+
+      const taskIdx = data.boards[boardIdx].tasks.findIndex(
+        (task) => task.title === taskTitle
+      );
+      const subtaskIdx = data.boards[boardIdx].tasks[
+        taskIdx
+      ].subtasks.findIndex((stask) => stask.title === subtask.title);
+
+      data.boards[boardIdx].tasks[taskIdx].subtasks[subtaskIdx].checked = value;
+
+      return { ...data };
+    });
+  }
+
+  function onStatusChange(taskTitle: string, status: string) {
+    setData(() => {
+      const boardIdx = data.boards.findIndex(
+        (board) => board.title === currentBoard
+      );
+
+      const taskIdx = data.boards[boardIdx].tasks.findIndex(
+        (task) => task.title === taskTitle
+      );
+
+      data.boards[boardIdx].tasks[taskIdx].status = status;
+
+      return { ...data };
+    });
+  }
+
   return (
     <div className="App">
       <TaskModal
         show={currentTask ? true : false}
         task={currentTask}
+        statuses={
+          data.boards.find((board) => board.title === currentBoard)?.statuses ??
+          []
+        }
+        onStatusChange={onStatusChange}
+        toggleChecked={toggleChecked}
         handleClose={() => setCurrentTask(null)}
       />
       <AddBoardModal

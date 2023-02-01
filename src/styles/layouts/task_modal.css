@@ -1,12 +1,20 @@
-.task-modal .subtasks {
+.task-modal .form-group {
   display: flex;
   flex-direction: column;
   color: white;
+  max-width: 100%;
+  gap: 0.5rem;
 }
-.task-modal .subtasks .subtask {
+.task-modal .form-group .subtask {
   background-color: rgb(32, 33, 44);
   padding: 0.5rem;
   display: flex;
   gap: 0.5rem;
   border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+.task-modal .form-group .subtask.checked {
+  text-decoration: line-through;
+  color: grey;
 }

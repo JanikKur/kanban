@@ -7,10 +7,20 @@ import "../styles/layouts/task_modal.css";
 export default function TaskModal({
   show,
   task,
+  statuses,
+  toggleChecked,
+  onStatusChange,
   handleClose,
 }: {
   show: boolean;
   task: TaskType | null;
+  statuses: { title: string; color: string }[];
+  toggleChecked: (
+    taskTitle: string,
+    subtask: { title: string; checked: boolean },
+    value: boolean
+  ) => void;
+  onStatusChange: (taskTitle: string, status: string) => void;
   handleClose: () => void;
 }) {
   function getNumberOfCompletedSubTasks() {
@@ -28,18 +38,40 @@ export default function TaskModal({
         <h2>{task.title}</h2>
       </div>
       <p>{task.description}</p>
-      <div className="subtasks">
+      <div className="form-group">
         <label>
           Subtasks ({getNumberOfCompletedSubTasks()} of {task.subtasks.length})
         </label>
-        {task.subtasks.map((subtask) => {
+        {task.subtasks.map((subtask, idx) => {
           return (
-            <div className="subtask">
-              <input type="checkbox" checked={subtask.checked} />{" "}
+            <div
+              key={idx}
+              className={`subtask ${subtask.checked ? "checked" : ""}`}
+              onClick={() =>
+                toggleChecked(task.title, subtask, !subtask.checked)
+              }
+            >
+              <input
+                type="checkbox"
+                checked={subtask.checked}
+                onChange={() =>
+                  toggleChecked(task.title, subtask, !subtask.checked)
+                }
+              />{" "}
               {subtask.title}
             </div>
           );
         })}
+      </div>
+      <div className="form-group">
+        <label>Status</label>
+        <select onChange={(e) => onStatusChange(task.title, e.target.value)}>
+          {statuses.map((status, idx) => (
+            <option key={idx} value={status.title}>
+              {status.title}
+            </option>
+          ))}
+        </select>
       </div>
     </Modal>
   );

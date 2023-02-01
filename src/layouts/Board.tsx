@@ -24,9 +24,9 @@ export default function Board({
   if (!currentBoard) return <h2>No Board Selected</h2>;
   return (
     <section className="board">
-      {currentBoard.statuses.map((status) => {
+      {currentBoard.statuses.map((status, idx_b) => {
         return (
-          <div className="col">
+          <div className="col" key={idx_b}>
             <label className="col-title">
               <div
                 className="color"
@@ -36,9 +36,10 @@ export default function Board({
             </label>
             {currentBoard.tasks
               .filter((task) => task.status === status.title)
-              .map((task) => {
+              .map((task, idx) => {
                 return (
                   <button
+                    key={idx}
                     className="todo-btn"
                     onClick={() => setCurrentTask(task)}
                   >
