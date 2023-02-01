@@ -366,6 +366,7 @@ export default function App() {
           currentBoard={data.boards.find(
             (board) => board.title === currentBoard
           )}
+          updateTask={updateTask}
           showAddTask={() => setShowAddTaskModal(true)}
           setCurrentTask={setCurrentTask}
           showTaskModal={() => setShowTaskModal(true)}
