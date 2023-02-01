@@ -169,6 +169,25 @@ export default function App() {
     });
   }
 
+  function updateTask(title: string, newData: any){
+    setData(() => {
+      const boardIdx = data.boards.findIndex(
+        (board) => board.title === currentBoard
+      );
+
+      const taskIdx = data.boards[boardIdx].tasks.findIndex(
+        (status) => status.title === title
+      );
+
+      data.boards[boardIdx].tasks[taskIdx] = {
+        ...data.boards[boardIdx].tasks[taskIdx],
+        ...newData,
+      };
+
+      return { ...data };
+    });
+  }
+
   return (
     <div className="App">
       <EditTaskModal
@@ -178,7 +197,7 @@ export default function App() {
           data.boards.find((board) => board.title === currentBoard)?.statuses ??
           []
         }
-        handleSubmit={addTask}
+        handleSubmit={updateTask}
         handleClose={() => setShowEditTaskModal(false)}
       />
       <EditStatusesModal

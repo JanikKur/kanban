@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import { AiOutlineClose } from "react-icons/ai";
@@ -16,19 +16,16 @@ export default function EditTaskModal({
   statuses: { title: string; color: string }[];
   handleSubmit: (
     title: string,
-    description: string,
-    status: string,
-    subTasks: string[]
+    newData: any
   ) => void;
   handleClose: () => void;
 }) {
-  const [subTasks, setSubTasks] = useState<string[]>(
-    taskData?.subtasks.map((task) => task.title) ?? [""]
-  ); //TODO
-  dwa;
+  const [subTasks, setSubTasks] = useState<string[]>([]);
   const titleRef = useRef<HTMLInputElement>(null!);
   const descriptionRef = useRef<HTMLTextAreaElement>(null!);
   const statusRef = useRef<HTMLSelectElement>(null!);
+  console.log("TEST");
+  
 
   function updateSubTask(prevValue: string, newValue: string) {
     setSubTasks((prev) => [
@@ -37,6 +34,10 @@ export default function EditTaskModal({
     ]);
   }
 
+  useEffect(() => {
+    setSubTasks(taskData?.subtasks.map((task) => task.title) ?? []);
+  },[taskData])
+
   if (!taskData) return null;
   return (
     <Modal show={show} handleClose={handleClose} className="add-modal">
@@ -44,11 +45,13 @@ export default function EditTaskModal({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit(
-            titleRef.current.value,
-            descriptionRef.current.value,
-            statusRef.current.value,
-            subTasks
+
+          handleSubmit(taskData.title, {
+            title: titleRef.current.value,
+            description: descriptionRef.current.value,
+            status: statusRef.current.value,
+            subtasks: [...(subTasks.map(task => {return {title: task, checked: taskData.subtasks.find(t => t.title === task)?.checked || false}}))]
+          }
           );
           handleClose();
         }}
@@ -73,7 +76,7 @@ export default function EditTaskModal({
         </div>
         <div className="form-group subtasks">
           <label>Subtasks</label>
-          {subTasks.map((subTask, idx) => (
+          {subTasks.sort().map((subTask, idx) => (
             <SubtaskInput
               key={idx}
               value={subTask}
