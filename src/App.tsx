@@ -47,11 +47,13 @@ export default function App() {
     subTasks: string[]
   ) {
     setData((prev) => {
-      const newBoard = prev.boards.find(
+      const boardIdx = prev.boards.findIndex(
         (board) => board.title === currentBoard
       );
-      if (!newBoard) return prev;
-      newBoard.tasks.push({
+      if (prev.boards[boardIdx].tasks.find((task) => task.title === title)) {
+        return prev;
+      }
+      prev.boards[boardIdx].tasks.push({
         title,
         description,
         status,
@@ -59,36 +61,26 @@ export default function App() {
           return { title: task, checked: false };
         }),
       });
-      const newBoards = prev.boards.filter(
-        (board) => board.title !== currentBoard
-      );
-      newBoards.push(newBoard);
-      prev.boards = newBoards;
-      return prev;
+      return { ...prev };
     });
   }
 
   function addStatus(status: string, color: string) {
     setData((prev) => {
-      const newBoard = prev.boards.find(
+      const boardIdx = prev.boards.findIndex(
         (board) => board.title === currentBoard
       );
-      if (!newBoard) return prev;
-      if (newBoard.statuses.find((stat) => stat.title === status)) {
+
+      if (
+        prev.boards[boardIdx].statuses.find((stat) => stat.title === status)
+      ) {
         return prev;
       }
-      newBoard.statuses.push({
+      prev.boards[boardIdx].statuses.push({
         title: status,
         color: color,
       });
-      const newBoards = prev.boards.filter(
-        (board) => board.title !== currentBoard
-      );
-      newBoards.push(newBoard);
-      prev.boards = newBoards;
-      console.log(prev);
-
-      return prev;
+      return { ...prev };
     });
   }
 
