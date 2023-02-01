@@ -16,7 +16,13 @@
   justify-content: flex-start;
   gap: 1rem;
 }
+.col .no-tasks{
+  font-weight: 100;
+  color: rgba(128, 128, 128, 0.449);
+  font-size: small;
+}
 .col-title {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -74,4 +80,5 @@
 }
 .add-bol-btn:hover {
   background-color: rgb(61, 63, 81);
+  user-select: none;
 }

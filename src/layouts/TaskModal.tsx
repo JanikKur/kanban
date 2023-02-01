@@ -3,7 +3,7 @@ import { TaskType } from "../App";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import "../styles/layouts/task_modal.css";
-import { AiOutlineMore } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
 
 export default function TaskModal({
   show,
@@ -46,7 +46,7 @@ export default function TaskModal({
             handleClose();
           }}
         >
-          <AiOutlineMore />
+          <AiFillEdit />
         </button>
       </div>
       <p>{task.description}</p>
@@ -66,9 +66,6 @@ export default function TaskModal({
               <input
                 type="checkbox"
                 checked={subtask.checked}
-                onChange={() =>
-                  toggleChecked(task.title, subtask, !subtask.checked)
-                }
               />{" "}
               {subtask.title}
             </div>

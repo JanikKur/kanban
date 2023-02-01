@@ -27,7 +27,7 @@ export default function AddStatusModal({
       >
         <div className="form-group">
           <label>Title</label>
-          <input type="text" ref={titleRef} placeholder="e.g. Important" />
+          <input type="text" ref={titleRef} placeholder="e.g. Important" required/>
         </div>
         <div className="form-group">
           <label>Color</label>

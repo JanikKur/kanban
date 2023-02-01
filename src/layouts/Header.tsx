@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import "../styles/layouts/header.css";
-import { AiOutlineMore, AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiOutlineMore, AiFillDelete, AiFillEdit, AiOutlineMenu } from "react-icons/ai";
 
 export default function Header({
   currentBoard,
+  showSideNav,
   showEditStatusesModal,
   deleteBoard,
   showAddNewTaskModal,
 }: {
   currentBoard: string;
+  showSideNav: () => void;
   deleteBoard: () => void;
   showEditStatusesModal: () => void;
   showAddNewTaskModal: () => void;
@@ -37,7 +39,7 @@ export default function Header({
 
   return (
     <header className="main-header">
-      <h1>{currentBoard}</h1>
+      <div className="user-interaction"><button onClick={showSideNav} className="menu-btn mobile"><AiOutlineMenu/></button><h1>{currentBoard}</h1></div>
       {currentBoard ? (
         <>
           <div className="user-interaction">

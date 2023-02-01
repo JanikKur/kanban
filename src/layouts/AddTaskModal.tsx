@@ -60,6 +60,7 @@ export default function AddTaskModal({
           <textarea
             ref={descriptionRef}
             placeholder="e.g. It's always good to take a break. This 15 minute break will reacharge the batteries a little."
+            required
           />
         </div>
         <div className="form-group subtasks">
@@ -87,7 +88,7 @@ export default function AddTaskModal({
           </button>
         </div>
         <div className="form-group">
-          <label>Status</label>
+          <label>Column</label>
           <select ref={statusRef}>
             {statuses.map((status, idx) => (
               <option key={idx} value={status.title}>
@@ -119,6 +120,7 @@ function SubtaskInput({
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        required
       />
       <button
         onClick={(e) => {

@@ -1,6 +1,8 @@
 .add-modal {
   padding: 1.5rem;
   border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
   gap: 1rem;
 }
 .add-modal form {
@@ -13,10 +15,11 @@
 .form-group {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .add-modal form input {
   height: 30px;
-  width: 400px;
+  width: 100%;
   max-width: 100%;
   font-family: Arial, Helvetica, sans-serif;
   padding-left: 0.5rem;
@@ -26,7 +29,7 @@
 .add-modal form textarea {
   font-family: Arial, Helvetica, sans-serif;
   padding: 0.5rem;
-  width: 400px;
+  width: 100%;
   max-width: 100%;
   background-color: transparent;
   border: 1px solid rgba(55, 56, 66);
@@ -55,7 +58,8 @@
 }
 .subtasks {
   gap: 0.5rem;
-  width: 400px;
+  width: 100%;
+  max-width: 100%;
 }
 .subtask {
   display: flex;

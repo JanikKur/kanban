@@ -6,10 +6,12 @@ export default function Board({
   showAddNewStatusModal,
   showTaskModal,
   setCurrentTask,
+  showAddTask,
   currentBoard,
 }: {
   showAddNewStatusModal: () => void;
   showTaskModal: () => void;
+  showAddTask: () => void;
   setCurrentTask: React.Dispatch<React.SetStateAction<TaskType | null>>;
   currentBoard: BoardType | undefined;
 }) {
@@ -29,13 +31,15 @@ export default function Board({
       {currentBoard.statuses.map((status, idx_b) => {
         return (
           <div className="col" key={idx_b}>
-            <label className="col-title">
+            <label className="col-title" tabIndex={0} onClick={showAddTask}>
               <div
                 className="color"
                 style={{ backgroundColor: status.color }}
               ></div>
               {status.title} ({getTaskCountForStatus(status.title)})
             </label>
+            {!currentBoard.tasks
+              .filter((task) => task.status === status.title).length ? <p className="no-tasks">No Tasks created yet</p> : ""}
             {currentBoard.tasks
               .filter((task) => task.status === status.title)
               .map((task, idx) => {

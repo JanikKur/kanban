@@ -25,6 +25,9 @@ export type TaskType = {
 };
 
 export default function App() {
+
+  const [showSideNav, setShowSideNav] = useState(false);
+
   const [showAddBoardModal, setShowAddBoardModal] = useState(false);
   const [showAddStatusModal, setShowAddStatusModal] = useState(false);
   const [showTaskModal, setShowTaskModal] = useState(false);
@@ -288,12 +291,16 @@ export default function App() {
         handleClose={() => setShowAddTaskModal(false)}
       />
       <SideNavigation
+        show={showSideNav}
+        hideSideNav={() => setShowSideNav(false)}
         data={data}
         currentBoard={currentBoard}
         onSelect={(title) => setCurrentBoard(title)}
         showAddNewBoardModal={() => setShowAddBoardModal(true)}
       />
       <Header
+
+        showSideNav={() => setShowSideNav(true)}
         currentBoard={currentBoard}
         deleteBoard={deleteBoard}
         showEditStatusesModal={() => setShowEditStatusesModal(true)}
@@ -304,6 +311,7 @@ export default function App() {
           currentBoard={data.boards.find(
             (board) => board.title === currentBoard
           )}
+          showAddTask={() => setShowAddTaskModal(true)}
           setCurrentTask={setCurrentTask}
           showTaskModal={() => setShowTaskModal(true)}
           showAddNewStatusModal={() => setShowAddStatusModal(true)}

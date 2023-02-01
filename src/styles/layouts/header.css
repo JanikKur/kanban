@@ -21,6 +21,7 @@
   height: 100%;
   border: none;
   border-radius: 20px;
+  content: "WASD";
   cursor: pointer;
 }
 .menu-btn {

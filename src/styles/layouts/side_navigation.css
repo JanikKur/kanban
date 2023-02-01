@@ -9,7 +9,10 @@
   background-color: rgba(43, 44, 55);
   border-right: 1px solid rgba(55, 56, 66);
 }
-
+.side-nav .user-interaction{
+  height: auto;
+  justify-content: space-between;
+}
 .logo {
   font-size: 2rem;
   text-transform: uppercase;
@@ -45,4 +48,20 @@
 .board-selection-btn.add-btn:hover {
   background-color: transparent;
   color: rgb(110, 118, 224);
+}
+
+
+@media only screen and (max-width: 800px) {
+  .side-nav{
+    width: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: all .25s ease-in-out;
+  }
+  .side-nav.show{
+    width: 80%;
+    overflow: hidden;
+    padding: 1rem;
+  }
+  
 }

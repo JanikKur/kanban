@@ -136,6 +136,7 @@ function SubtaskInput({
   return (
     <div className="subtask">
       <input
+        required
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
