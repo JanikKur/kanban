@@ -9,6 +9,7 @@ import TaskModal from "./layouts/TaskModal";
 import EditStatusesModal from "./layouts/EditStatusesModal";
 import EditTaskModal from "./layouts/EditTaskModal";
 import { useData } from "./contexts/DataContext";
+import TutorialModal from "./layouts/TutorialModal";
 
 export default function App() {
   const [showSideNav, setShowSideNav] = useState(false);
@@ -20,10 +21,19 @@ export default function App() {
   const [showEditStatusesModal, setShowEditStatusesModal] = useState(false);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
 
-  const { setCurrentTask } = useData();
+  const { data, setCurrentTask } = useData();
+  const [showTutorialModal, setShowTutorialModal] = useState(
+    data.boards.length <= 0
+  );
 
   return (
     <div className="App">
+      <TutorialModal
+        show={showTutorialModal}
+        handleClose={() => {
+          setShowTutorialModal(false);
+        }}
+      />
       <EditTaskModal
         show={showEditTaskModal}
         handleClose={() => {
@@ -59,6 +69,7 @@ export default function App() {
       />
       <Header
         showSideNav={() => setShowSideNav(true)}
+        showTutorial={() => setShowTutorialModal(true)}
         showEditStatusesModal={() => setShowEditStatusesModal(true)}
         showAddNewTaskModal={() => setShowAddTaskModal(true)}
       />

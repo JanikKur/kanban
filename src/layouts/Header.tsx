@@ -8,16 +8,19 @@ import {
   AiOutlineDownload,
   AiOutlineUpload,
 } from "react-icons/ai";
+import { BiHelpCircle } from "react-icons/bi";
 import { useData } from "../contexts/DataContext";
 
 export default function Header({
   showSideNav,
   showEditStatusesModal,
   showAddNewTaskModal,
+  showTutorial,
 }: {
   showSideNav: () => void;
   showEditStatusesModal: () => void;
   showAddNewTaskModal: () => void;
+  showTutorial: () => void;
 }) {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -73,6 +76,15 @@ export default function Header({
           }}
         >
           <AiOutlineDownload /> <span>Load Board</span>
+        </button>
+        <button
+          className="menu-icon-btn"
+          tabIndex={showMenu ? 0 : -1}
+          onClick={() => {
+            showTutorial();
+          }}
+        >
+          <BiHelpCircle /> <span>Help</span>
         </button>
       </div>
     );

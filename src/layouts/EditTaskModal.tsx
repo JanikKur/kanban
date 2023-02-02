@@ -87,20 +87,23 @@ export default function EditTaskModal({
             </div>
             <div className="form-group subtasks">
               <label>Subtasks</label>
-              {subTasks.sort().map((subTask, idx) => (
-                <SubtaskInput
-                  key={idx}
-                  value={subTask}
-                  onChange={(newText: string) =>
-                    updateSubTask(subTask, newText)
-                  }
-                  onDelete={(text) =>
-                    setSubTasks((prev: string[]) => [
-                      ...prev.filter((task: string) => task !== text),
-                    ])
-                  }
-                />
-              ))}
+              {subTasks
+                .sort()
+                .reverse()
+                .map((subTask, idx) => (
+                  <SubtaskInput
+                    key={idx}
+                    value={subTask}
+                    onChange={(newText: string) =>
+                      updateSubTask(subTask, newText)
+                    }
+                    onDelete={(text) =>
+                      setSubTasks((prev: string[]) => [
+                        ...prev.filter((task: string) => task !== text),
+                      ])
+                    }
+                  />
+                ))}
               <button
                 className="add-subclass-btn"
                 onClick={(e) => {
