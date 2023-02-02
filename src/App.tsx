@@ -286,9 +286,8 @@ export default function App() {
       if (e?.target?.files?.length) {
         reader.readAsText(e?.target?.files[0]);
       }
-
-      document.body.removeChild(fileUpload);
     });
+    document.body.removeChild(fileUpload);
   }
 
   if (!data) return null;
