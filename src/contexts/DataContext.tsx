@@ -1,42 +1,57 @@
-import { useEffect, useState } from "react";
-import AddBoardModal from "./layouts/AddBoardModal";
-import AddStatusModal from "./layouts/AddStatusModal";
-import AddTaskModal from "./layouts/AddTaskModal";
-import Board from "./layouts/Board";
-import Header from "./layouts/Header";
-import SideNavigation from "./layouts/SideNavigation";
-import TaskModal from "./layouts/TaskModal";
-import EditStatusesModal from "./layouts/EditStatusesModal";
-import EditTaskModal from "./layouts/EditTaskModal";
+import React, { useContext, useState, useEffect } from "react";
+import { DataType, TaskType } from "../App";
 
-export type DataType = {
-  boards: BoardType[];
+type DataContextType = {
+  data: DataType | null;
+  addBoard: (title: string) => void;
+  addTask: (
+    title: string,
+    description: string,
+    status: string,
+    subTasks: string[]
+  ) => void;
+  addStatus: (status: string, color: string) => void;
+  toggleChecked: (
+    taskTitle: string,
+    subtask: { title: string; checked: boolean },
+    value: boolean
+  ) => void;
+  onStatusChange: (taskTitle: string, status: string) => void;
+  deleteStatus: (statusTitle: string) => void;
+  updateStatus: (statusTitle: string, newData: any) => void;
+  deleteBoard: () => void;
+  deleteTask: (taskTitle: string) => void;
+  updateTask: (title: string, newData: any) => void;
+  saveBoard: () => void;
+  loadBoard: () => void;
 };
-export type BoardType = {
-  title: string;
-  statuses: { title: string; color: string }[];
-  tasks: TaskType[];
-};
-export type TaskType = {
-  title: string;
-  description: string;
-  subtasks: { title: string; checked: boolean }[];
-  status: string;
-};
 
-export default function App() {
-  const [showSideNav, setShowSideNav] = useState(false);
+const DataContext = React.createContext<DataContextType>({
+  data: null,
+  addBoard: () => {},
+  addTask: () => {},
+  addStatus: () => {},
+  toggleChecked: () => {},
+  onStatusChange: () => {},
+  deleteStatus: () => {},
+  updateStatus: () => {},
+  deleteBoard: () => {},
+  deleteTask: () => {},
+  updateTask: () => {},
+  saveBoard: () => {},
+  loadBoard: () => {},
+});
 
-  const [showAddBoardModal, setShowAddBoardModal] = useState(false);
-  const [showAddStatusModal, setShowAddStatusModal] = useState(false);
-  const [showTaskModal, setShowTaskModal] = useState(false);
-  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-  const [showEditStatusesModal, setShowEditStatusesModal] = useState(false);
-  const [showEditTaskModal, setShowEditTaskModal] = useState(false);
+export function useData() {
+  return useContext(DataContext);
+}
 
+export function DataProvider({ children }: React.PropsWithChildren) {
   const [data, setData] = useState<DataType>(null!);
   const [currentBoard, setCurrentBoard] = useState("");
   const [currentTask, setCurrentTask] = useState<TaskType | null>(null);
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const savedDataString = localStorage.getItem("data") ?? "";
@@ -53,8 +68,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     if (data) {
       localStorage.setItem("data", JSON.stringify(data));
+      setLoading(false);
     }
   }, [{ ...data }]);
 
@@ -291,93 +308,25 @@ export default function App() {
     document.body.removeChild(fileUpload);
   }
 
-  if (!data) return null;
+  const value = {
+    data,
+    addBoard,
+    addTask,
+    addStatus,
+    toggleChecked,
+    onStatusChange,
+    deleteStatus,
+    updateStatus,
+    deleteBoard,
+    deleteTask,
+    updateTask,
+    saveBoard,
+    loadBoard,
+  };
+
   return (
-    <div className="App">
-      <EditTaskModal
-        taskData={currentTask}
-        show={showEditTaskModal}
-        statuses={
-          data.boards.find((board) => board.title === currentBoard)?.statuses ??
-          []
-        }
-        handleDelete={deleteTask}
-        handleSubmit={updateTask}
-        handleClose={() => {
-          setCurrentTask(null);
-          setShowEditTaskModal(false);
-        }}
-      />
-      <EditStatusesModal
-        show={showEditStatusesModal}
-        statuses={
-          data.boards.find((board) => board.title === currentBoard)?.statuses ??
-          []
-        }
-        handleChange={updateStatus}
-        handleDelete={deleteStatus}
-        handleClose={() => setShowEditStatusesModal(false)}
-      />
-      <TaskModal
-        show={showTaskModal}
-        task={currentTask}
-        statuses={
-          data.boards.find((board) => board.title === currentBoard)?.statuses ??
-          []
-        }
-        onStatusChange={onStatusChange}
-        showEditTaskModal={() => setShowEditTaskModal(true)}
-        toggleChecked={toggleChecked}
-        handleClose={() => setShowTaskModal(false)}
-      />
-      <AddBoardModal
-        show={showAddBoardModal}
-        handleSubmit={addBoard}
-        handleClose={() => setShowAddBoardModal(false)}
-      />
-      <AddStatusModal
-        show={showAddStatusModal}
-        handleSubmit={addStatus}
-        handleClose={() => setShowAddStatusModal(false)}
-      />
-      <AddTaskModal
-        show={showAddTaskModal}
-        statuses={
-          data.boards.find((board) => board.title === currentBoard)?.statuses ??
-          []
-        }
-        handleSubmit={addTask}
-        handleClose={() => setShowAddTaskModal(false)}
-      />
-      <SideNavigation
-        show={showSideNav}
-        hideSideNav={() => setShowSideNav(false)}
-        data={data}
-        currentBoard={currentBoard}
-        onSelect={(title) => setCurrentBoard(title)}
-        showAddNewBoardModal={() => setShowAddBoardModal(true)}
-      />
-      <Header
-        showSideNav={() => setShowSideNav(true)}
-        currentBoard={currentBoard}
-        deleteBoard={deleteBoard}
-        saveBoard={saveBoard}
-        loadBoard={loadBoard}
-        showEditStatusesModal={() => setShowEditStatusesModal(true)}
-        showAddNewTaskModal={() => setShowAddTaskModal(true)}
-      />
-      <main>
-        <Board
-          currentBoard={data.boards.find(
-            (board) => board.title === currentBoard
-          )}
-          updateTask={updateTask}
-          showAddTask={() => setShowAddTaskModal(true)}
-          setCurrentTask={setCurrentTask}
-          showTaskModal={() => setShowTaskModal(true)}
-          showAddNewStatusModal={() => setShowAddStatusModal(true)}
-        />
-      </main>
-    </div>
+    <DataContext.Provider value={value}>
+      {!loading && children}
+    </DataContext.Provider>
   );
 }

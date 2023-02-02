@@ -147,7 +147,6 @@ function SubtaskInput({
       <button
         onClick={(e) => {
           e.preventDefault();
-
           onDelete(value);
         }}
       >
