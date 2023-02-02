@@ -10,21 +10,6 @@ import EditStatusesModal from "./layouts/EditStatusesModal";
 import EditTaskModal from "./layouts/EditTaskModal";
 import { useData } from "./contexts/DataContext";
 
-export type DataType = {
-  boards: BoardType[];
-};
-export type BoardType = {
-  title: string;
-  statuses: { title: string; color: string }[];
-  tasks: TaskType[];
-};
-export type TaskType = {
-  title: string;
-  description: string;
-  subtasks: { title: string; checked: boolean }[];
-  status: string;
-};
-
 export default function App() {
   const [showSideNav, setShowSideNav] = useState(false);
 

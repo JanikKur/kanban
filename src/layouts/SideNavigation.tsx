@@ -2,7 +2,6 @@ import React from "react";
 import "../styles/layouts/side_navigation.css";
 import { BsGrid1X2 } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
-import { DataType } from "../App";
 import { useData } from "../contexts/DataContext";
 
 export default function SideNavigation({

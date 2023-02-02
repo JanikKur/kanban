@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import { AiOutlineClose } from "react-icons/ai";
-import { TaskType } from "../App";
 import { useData } from "../contexts/DataContext";
 
 export default function EditTaskModal({

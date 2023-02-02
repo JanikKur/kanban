@@ -1,5 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
-import { BoardType, DataType, TaskType } from "../App";
+
+export type DataType = {
+  boards: BoardType[];
+};
+export type BoardType = {
+  title: string;
+  statuses: { title: string; color: string }[];
+  tasks: TaskType[];
+};
+export type TaskType = {
+  title: string;
+  description: string;
+  subtasks: { title: string; checked: boolean }[];
+  status: string;
+};
 
 type DataContextType = {
   data: DataType;

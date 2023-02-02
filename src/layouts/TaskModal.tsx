@@ -1,5 +1,4 @@
 import React from "react";
-import { TaskType } from "../App";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import "../styles/layouts/task_modal.css";

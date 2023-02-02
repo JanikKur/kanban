@@ -1,6 +1,5 @@
 import React from "react";
-import { BoardType, TaskType } from "../App";
-import { useData } from "../contexts/DataContext";
+import { TaskType, useData } from "../contexts/DataContext";
 import "../styles/layouts/board.css";
 
 export default function Board({
