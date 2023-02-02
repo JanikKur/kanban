@@ -69,26 +69,16 @@ export default function Board({
             )}
             {currentBoard.tasks
               .filter((task) => task.status === status.title)
-              .map((task, idx) => {
-                return (
-                  <button
-                    key={idx}
-                    draggable
-                    className="todo-btn"
-                    onDragStart={(e) => handleOnDrag(e, task)}
-                    onClick={() => {
-                      setCurrentTask(task);
-                      showTaskModal();
-                    }}
-                  >
-                    <span className="title">{task.title}</span>
-                    <span className="subtasks">
-                      {getNumberOfCompletedSubTasks(task)} of{" "}
-                      {task.subtasks.length} subtasks
-                    </span>
-                  </button>
-                );
-              })}
+              .map((task, idx) => (
+                <Task
+                  key={idx}
+                  taskData={task}
+                  setCurrentTask={setCurrentTask}
+                  showTaskModal={showTaskModal}
+                  handleOnDrag={handleOnDrag}
+                  completedSubTasks={getNumberOfCompletedSubTasks(task)}
+                />
+              ))}
           </div>
         );
       })}
@@ -97,5 +87,36 @@ export default function Board({
         + New Column
       </button>
     </section>
+  );
+}
+
+function Task({
+  setCurrentTask,
+  showTaskModal,
+  handleOnDrag,
+  taskData,
+  completedSubTasks,
+}: {
+  setCurrentTask: React.Dispatch<React.SetStateAction<TaskType | null>>;
+  showTaskModal: () => void;
+  completedSubTasks: number;
+  taskData: TaskType;
+  handleOnDrag: (e: React.DragEvent, taskData: TaskType) => void;
+}) {
+  return (
+    <button
+      draggable
+      className="todo-btn"
+      onDragStart={(e) => handleOnDrag(e, taskData)}
+      onClick={() => {
+        setCurrentTask(taskData);
+        showTaskModal();
+      }}
+    >
+      <span className="title">{taskData.title}</span>
+      <span className="subtasks">
+        {completedSubTasks} of {taskData.subtasks.length} subtasks
+      </span>
+    </button>
   );
 }

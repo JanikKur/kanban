@@ -62,7 +62,11 @@ export default function TaskModal({
                 toggleChecked(task.title, subtask, !subtask.checked)
               }
             >
-              <input type="checkbox" checked={subtask.checked} />{" "}
+              <input
+                type="checkbox"
+                checked={subtask.checked}
+                onChange={() => {}}
+              />{" "}
               {subtask.title}
             </div>
           );
