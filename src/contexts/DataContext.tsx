@@ -293,13 +293,11 @@ export function DataProvider({ children }: React.PropsWithChildren) {
         const newBoard = JSON.parse(reader?.result as string);
         if (data.boards.find((board) => board.title === newBoard.title)) {
           alert("You already have a board with this title!");
-          document.body.removeChild(fileUpload);
           return;
         }
 
         if (!newBoard.title || !newBoard.statuses || !newBoard.tasks) {
           alert("The Document doesn't have the required specitication !");
-          document.body.removeChild(fileUpload);
           return;
         }
         setData((prev) => {

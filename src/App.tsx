@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddBoardModal from "./layouts/AddBoardModal";
 import AddStatusModal from "./layouts/AddStatusModal";
 import AddTaskModal from "./layouts/AddTaskModal";
