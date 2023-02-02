@@ -35,6 +35,7 @@ export default function Header({
           <>
             <button
               className="menu-icon-btn"
+              tabIndex={showMenu ? 0 : -1}
               onClick={() => {
                 setShowMenu(false);
                 if (confirm("Are you sure you want to delete the Board?")) {
@@ -46,6 +47,7 @@ export default function Header({
             </button>
             <button
               className="menu-icon-btn"
+              tabIndex={showMenu ? 0 : -1}
               onClick={() => {
                 setShowMenu(false);
                 showEditStatusesModal();
@@ -55,6 +57,7 @@ export default function Header({
             </button>
             <button
               className="menu-icon-btn"
+              tabIndex={showMenu ? 0 : -1}
               onClick={() => {
                 setShowMenu(false);
                 saveBoard();
@@ -68,6 +71,7 @@ export default function Header({
         )}
         <button
           className="menu-icon-btn"
+          tabIndex={showMenu ? 0 : -1}
           onClick={() => {
             setShowMenu(false);
             loadBoard();
