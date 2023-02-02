@@ -2,20 +2,26 @@ import React from "react";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import { AiOutlineClose } from "react-icons/ai";
+import { useData } from "../contexts/DataContext";
 
 export default function EditStatusesModal({
   show,
-  statuses,
-  handleChange,
-  handleDelete,
   handleClose,
 }: {
   show: boolean;
-  statuses: { title: string; color: string }[];
-  handleChange: (title: string, newData: any) => void;
-  handleDelete: (statusTitle: string) => void;
   handleClose: () => void;
 }) {
+  const {
+    data,
+    currentBoard,
+    currentTask: taskData,
+    updateStatus,
+    deleteStatus,
+  } = useData();
+
+  const statuses =
+    data.boards.find((board) => board.title === currentBoard)?.statuses ?? [];
+
   return (
     <>
       {show ? (
@@ -31,8 +37,8 @@ export default function EditStatusesModal({
               <StatusInput
                 key={idx}
                 value={status.title}
-                onChange={handleChange}
-                onDelete={handleDelete}
+                onChange={updateStatus}
+                onDelete={deleteStatus}
               />
             ))}
           </div>

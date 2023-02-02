@@ -3,26 +3,30 @@ import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import { AiOutlineClose } from "react-icons/ai";
 import { TaskType } from "../App";
+import { useData } from "../contexts/DataContext";
 
 export default function EditTaskModal({
   show,
-  taskData,
-  statuses,
-  handleDelete,
-  handleSubmit,
   handleClose,
 }: {
   show: boolean;
-  taskData: TaskType | null;
-  statuses: { title: string; color: string }[];
-  handleDelete: (title: string) => void;
-  handleSubmit: (title: string, newData: any) => void;
   handleClose: () => void;
 }) {
   const [subTasks, setSubTasks] = useState<string[]>([]);
   const titleRef = useRef<HTMLInputElement>(null!);
   const descriptionRef = useRef<HTMLTextAreaElement>(null!);
   const statusRef = useRef<HTMLSelectElement>(null!);
+
+  const {
+    data,
+    currentBoard,
+    currentTask: taskData,
+    updateTask,
+    deleteTask,
+  } = useData();
+
+  const statuses =
+    data.boards.find((board) => board.title === currentBoard)?.statuses ?? [];
 
   function updateSubTask(prevValue: string, newValue: string) {
     setSubTasks((prev) => [
@@ -45,7 +49,7 @@ export default function EditTaskModal({
             onSubmit={(e) => {
               e.preventDefault();
 
-              handleSubmit(taskData.title, {
+              updateTask(taskData.title, {
                 title: titleRef.current.value,
                 description: descriptionRef.current.value,
                 status: statusRef.current.value,
@@ -125,7 +129,7 @@ export default function EditTaskModal({
               className="btn-primary delete"
               onClick={(e) => {
                 e.preventDefault();
-                handleDelete(taskData.title);
+                deleteTask(taskData.title);
                 handleClose();
               }}
             >

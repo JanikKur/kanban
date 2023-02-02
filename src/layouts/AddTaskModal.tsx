@@ -2,27 +2,24 @@ import React, { useRef, useState } from "react";
 import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import { AiOutlineClose } from "react-icons/ai";
+import { useData } from "../contexts/DataContext";
 
 export default function AddTaskModal({
   show,
-  statuses,
-  handleSubmit,
   handleClose,
 }: {
   show: boolean;
-  statuses: { title: string; color: string }[];
-  handleSubmit: (
-    title: string,
-    description: string,
-    status: string,
-    subTasks: string[]
-  ) => void;
   handleClose: () => void;
 }) {
   const [subTasks, setSubTasks] = useState<string[]>([]);
   const titleRef = useRef<HTMLInputElement>(null!);
   const descriptionRef = useRef<HTMLTextAreaElement>(null!);
   const statusRef = useRef<HTMLSelectElement>(null!);
+
+  const { data, currentBoard, addTask } = useData();
+
+  const statuses =
+    data.boards.find((board) => board.title === currentBoard)?.statuses ?? [];
 
   function updateSubTask(prevValue: string, newValue: string) {
     setSubTasks((prev) => [
@@ -39,7 +36,7 @@ export default function AddTaskModal({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(
+              addTask(
                 titleRef.current.value,
                 descriptionRef.current.value,
                 statusRef.current.value,

@@ -1,16 +1,17 @@
 import React, { useRef } from "react";
 import Modal from "../components/Modal";
+import { useData } from "../contexts/DataContext";
 import "../styles/layouts/add_modal.css";
 
 export default function AddBoardModal({
   show,
-  handleSubmit,
   handleClose,
 }: {
   show: boolean;
-  handleSubmit: (title: string) => void;
   handleClose: () => void;
 }) {
+  const { addBoard } = useData();
+
   const titleRef = useRef<HTMLInputElement>(null!);
   return (
     <>
@@ -20,7 +21,7 @@ export default function AddBoardModal({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(titleRef.current.value);
+              addBoard(titleRef.current.value);
               titleRef.current.value = "";
               handleClose();
             }}

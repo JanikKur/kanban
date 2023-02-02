@@ -2,18 +2,19 @@ import React, { useRef, useState } from "react";
 import Modal from "../components/Modal";
 import { SketchPicker, TwitterPicker } from "react-color";
 import "../styles/layouts/add_modal.css";
+import { useData } from "../contexts/DataContext";
 
 export default function AddStatusModal({
   show,
-  handleSubmit,
   handleClose,
 }: {
   show: boolean;
-  handleSubmit: (title: string, color: string) => void;
   handleClose: () => void;
 }) {
   const titleRef = useRef<HTMLInputElement>(null!);
   const [color, setColor] = useState("");
+
+  const { addStatus } = useData();
 
   return (
     <>
@@ -24,7 +25,7 @@ export default function AddStatusModal({
             onSubmit={(e) => {
               e.preventDefault();
 
-              handleSubmit(titleRef.current.value, color);
+              addStatus(titleRef.current.value, color);
               titleRef.current.value = "";
               handleClose();
             }}
@@ -32,7 +33,7 @@ export default function AddStatusModal({
             <div className="form-group">
               <label>Title</label>
               <input
-              autoFocus
+                autoFocus
                 type="text"
                 ref={titleRef}
                 placeholder="e.g. Important"

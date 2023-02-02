@@ -8,25 +8,20 @@ import {
   AiOutlineDownload,
   AiOutlineUpload,
 } from "react-icons/ai";
+import { useData } from "../contexts/DataContext";
 
 export default function Header({
-  currentBoard,
   showSideNav,
   showEditStatusesModal,
-  deleteBoard,
   showAddNewTaskModal,
-  saveBoard,
-  loadBoard,
 }: {
-  currentBoard: string;
   showSideNav: () => void;
-  deleteBoard: () => void;
   showEditStatusesModal: () => void;
   showAddNewTaskModal: () => void;
-  saveBoard: () => void;
-  loadBoard: () => void;
 }) {
   const [showMenu, setShowMenu] = useState(false);
+
+  const { currentBoard, deleteBoard, saveBoard, loadBoard } = useData();
 
   function Menu() {
     return (

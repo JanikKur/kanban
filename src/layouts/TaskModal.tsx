@@ -4,28 +4,28 @@ import Modal from "../components/Modal";
 import "../styles/layouts/add_modal.css";
 import "../styles/layouts/task_modal.css";
 import { AiFillEdit } from "react-icons/ai";
+import { useData } from "../contexts/DataContext";
 
 export default function TaskModal({
   show,
-  task,
-  statuses,
   showEditTaskModal,
-  toggleChecked,
-  onStatusChange,
   handleClose,
 }: {
   show: boolean;
-  task: TaskType | null;
-  statuses: { title: string; color: string }[];
   showEditTaskModal: () => void;
-  toggleChecked: (
-    taskTitle: string,
-    subtask: { title: string; checked: boolean },
-    value: boolean
-  ) => void;
-  onStatusChange: (taskTitle: string, status: string) => void;
   handleClose: () => void;
 }) {
+  const {
+    data,
+    currentBoard,
+    currentTask: task,
+    onStatusChange,
+    toggleChecked,
+  } = useData();
+
+  const statuses =
+    data.boards.find((board) => board.title === currentBoard)?.statuses ?? [];
+
   function getNumberOfCompletedSubTasks() {
     return task?.subtasks.filter((subtask) => subtask.checked).length ?? 0;
   }
@@ -63,10 +63,7 @@ export default function TaskModal({
                 toggleChecked(task.title, subtask, !subtask.checked)
               }
             >
-              <input
-                type="checkbox"
-                checked={subtask.checked}
-              />{" "}
+              <input type="checkbox" checked={subtask.checked} />{" "}
               {subtask.title}
             </div>
           );

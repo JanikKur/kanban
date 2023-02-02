@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { DataType, TaskType } from "../App";
+import { BoardType, DataType, TaskType } from "../App";
 
 type DataContextType = {
-  data: DataType | null;
+  data: DataType;
+  currentBoard: string;
+  currentTask: TaskType | null;
+  setCurrentTask: React.Dispatch<React.SetStateAction<TaskType | null>>;
+  setCurrentBoard: React.Dispatch<React.SetStateAction<string>>;
   addBoard: (title: string) => void;
   addTask: (
     title: string,
@@ -27,7 +31,11 @@ type DataContextType = {
 };
 
 const DataContext = React.createContext<DataContextType>({
-  data: null,
+  data: null!,
+  currentBoard: "",
+  currentTask: null,
+  setCurrentTask: () => {},
+  setCurrentBoard: () => {},
   addBoard: () => {},
   addTask: () => {},
   addStatus: () => {},
@@ -310,6 +318,10 @@ export function DataProvider({ children }: React.PropsWithChildren) {
 
   const value = {
     data,
+    currentBoard,
+    currentTask,
+    setCurrentBoard,
+    setCurrentTask,
     addBoard,
     addTask,
     addStatus,

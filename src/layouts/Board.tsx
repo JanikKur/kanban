@@ -1,5 +1,6 @@
 import React from "react";
 import { BoardType, TaskType } from "../App";
+import { useData } from "../contexts/DataContext";
 import "../styles/layouts/board.css";
 
 export default function Board({
@@ -7,16 +8,18 @@ export default function Board({
   showTaskModal,
   setCurrentTask,
   showAddTask,
-  updateTask,
-  currentBoard,
 }: {
   showAddNewStatusModal: () => void;
   showTaskModal: () => void;
   showAddTask: () => void;
-  updateTask: (title: string, data: any) => void;
   setCurrentTask: React.Dispatch<React.SetStateAction<TaskType | null>>;
-  currentBoard: BoardType | undefined;
 }) {
+  const { data, currentBoard: currentBoardString, updateTask } = useData();
+
+  const currentBoard = data.boards.find(
+    (board) => board.title === currentBoardString
+  );
+
   function getTaskCountForStatus(status: string) {
     return (
       currentBoard?.tasks.filter((task) => task.status === status).length ?? 0
@@ -39,9 +42,7 @@ export default function Board({
 
   function handleOnDragOver(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
-    
   }
-
 
   if (!currentBoard) return <h2>No Board Selected</h2>;
   return (
@@ -52,7 +53,7 @@ export default function Board({
             className="col"
             key={idx_b}
             onDrop={(e) => handleOnDrop(e, status.title)}
-            onDragOver={e => handleOnDragOver(e)}
+            onDragOver={(e) => handleOnDragOver(e)}
           >
             <label className="col-title" tabIndex={0} onClick={showAddTask}>
               <div

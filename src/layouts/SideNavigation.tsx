@@ -3,22 +3,19 @@ import "../styles/layouts/side_navigation.css";
 import { BsGrid1X2 } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { DataType } from "../App";
+import { useData } from "../contexts/DataContext";
 
 export default function SideNavigation({
   show,
-  data,
   showAddNewBoardModal,
   hideSideNav,
-  currentBoard,
-  onSelect,
 }: {
-  show:boolean;
-  data: DataType;
+  show: boolean;
   hideSideNav: () => void;
   showAddNewBoardModal: () => void;
-  currentBoard: string;
-  onSelect: (title: string) => void;
 }) {
+  const { data, currentBoard, setCurrentBoard } = useData();
+
   function BoardSelection() {
     return (
       <div className="boards">
@@ -26,7 +23,7 @@ export default function SideNavigation({
         {data.boards.map(({ title }, idx) => {
           return (
             <button
-              onClick={() => onSelect(title)}
+              onClick={() => setCurrentBoard(title)}
               key={idx}
               className={`board-selection-btn ${
                 currentBoard === title ? "selected" : ""
