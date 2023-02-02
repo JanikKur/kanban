@@ -61,6 +61,7 @@ export default function App() {
     setData((prev) => {
       if (!prev.boards.find((board) => board.title === title)) {
         prev.boards.push({ title: title, statuses: [], tasks: [] });
+        setCurrentBoard(title)
       }
       return prev;
     });
@@ -202,7 +203,11 @@ export default function App() {
   function deleteBoard() {
     setData(() => {
       data.boards = data.boards.filter((board) => board.title !== currentBoard);
-      setCurrentBoard("");
+      if(data.boards.length){
+        setCurrentBoard(data.boards[0].title);
+      }else{
+        setCurrentBoard("");
+      }
       return { ...data };
     });
   }
